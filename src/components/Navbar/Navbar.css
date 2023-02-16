@@ -1,0 +1,21 @@
+.root {
+    flex-grow: 1;
+    margin-bottom: 7rem;
+}
+
+.app__navbar_grow {
+    flex-grow: 1;
+}
+
+.app__Navbar_button {
+    margin-left: 2;
+}
+
+.image__logo {
+    height: 3rem;
+    margin-right: 10px;
+}
+
+.app__Navbar_icon-Shopping {
+    color: white;
+}
