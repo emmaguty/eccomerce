@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -12,18 +11,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddShoppingCart } from '@mui/icons-material';
+import { createTheme } from '@mui/system';
 
 import accounting from "accounting";
 
-import images from '../constants/images';
-
 // const useStyles = makeStyles((theme) => ({
-//   root: {
-//     maxWidth: 345,
-//   },
-//   action: {
-//     marginTop: "50rem",
-//   },
 //   media: {
 //     height: 0,
 //     paddingTop: "56.25%", // 16:9
@@ -51,7 +43,8 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Product() {
+export default function Product({product : {id, name, productType, image, price, rating, description}}) {
+  const theme = createTheme();
   // const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -60,36 +53,37 @@ export default function Product() {
   };
 
   return (
-    <Card  sx={{ maxWidth: 345 }}>
+    <Card  sx={{ maxWidth: 345, marginTop: '2rem', padding: theme.spacing(3) }}>
       <CardHeader
         action={
           <Typography 
             aria-label="settings"
             variant='h5'
             color="textSecondary">
-            {accounting.formatMoney(50)} 
+            {accounting.formatMoney(price)} 
           </Typography>
         }
-        title="Shoes"
+        title={name}
         subheader="in Stock"
       />
       <CardMedia
         component="img"
         height="auto"
-        image={images.shoes}
-        alt="Nike Shoes-img"
-        title="Nike Shoes"
+        image={image}
+        alt={name}
+        title={name}
+        sx={{ height: '250px', width: '250px', objectFit: 'cover' }}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Running Shoes
+          {productType}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Add to cart">
           <AddShoppingCart fontSize="large" />
         </IconButton>
-        {Array(4)
+        {Array(rating)
           .fill()
           .map((_, i) => (
             <p>&#11088;</p>
@@ -105,7 +99,7 @@ export default function Product() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-            <Typography paragraph>Tenis Air Jordan</Typography>
+            <Typography paragraph>{description}</Typography>
         </CardContent>
       </Collapse>
     </Card>

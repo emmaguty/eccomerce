@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Product from './components/Product';
 import Navbar from './components/Navbar/Navbar';
-
+import Products from './components/Products/Products';
+import CheckoutCard from './components/CheckoutCard/CheckoutCard';
+import CheckoutPage from './components/CheckoutPage/CheckoutPage';
 
 import './App.css';
 
@@ -11,7 +12,8 @@ function App() {
     <div className="App">
       <header>
         <Navbar />
-        <Product />
+        <CheckoutCard />
+        {/* <Products /> */}
       </header>
     </div>
   );

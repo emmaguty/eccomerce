@@ -5,15 +5,18 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import { ShoppingCart } from '@mui/icons-material';
+import { Badge } from '@mui/material';
+import { createTheme } from '@mui/system';
 
 import logo from '../../assets/images/logo.png';
 
 import './Navbar.css';
 
 export default function ButtonAppBar() {
+  const theme = createTheme();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar  position="static" sx={{ backgroundColor: 'tomato' }}>
@@ -31,16 +34,21 @@ export default function ButtonAppBar() {
               alt="navbar_logo"
              />
           </IconButton>
-          <Typography variant="h6" component="p" sx={{ flexGrow: 1 }} color="black">
-            Hello Guest
+          
+          <Typography sx={{ flexGrow: 1, textAlign: 'end', marginRight: '1rem' }} variant="h6" component="p" color="black">
+            <p>Hello Guest</p>
           </Typography>
           <div className="app__Navbar_button">
             <Button variant="outlined" color="inherit">
                 <strong>Sign In</strong>
             </Button>
-            <ShoppingCart
-                fontSize="large"
-                className="app__Navbar_icon-Shopping" />
+            <IconButton aria-label="Show cart items" color="inherint" sx={{ marginLeft: theme.spacing(2) }}>
+                <Badge badgeContent={2} color="secondary">
+                <ShoppingCart
+                    fontSize="large"
+                    className="app__Navbar_icon-Shopping" />
+                </Badge>
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
