@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
-// import Products from './components/Products/Products';
+import Products from './components/Products/Products';
 //import CheckoutCard from './components/CheckoutCard/CheckoutCard';
-import CheckoutPage from './components/CheckoutPage/CheckoutPage';
+// import CheckoutPage from './components/CheckoutPage/CheckoutPage';
 
 import './App.css';
 
@@ -12,8 +12,8 @@ function App() {
     <div className="App">
       <header>
         <Navbar />
-        <CheckoutPage />
-        {/* <Products /> */}
+        {/* <CheckoutPage /> */}
+        <Products />
       </header>
     </div>
   );
