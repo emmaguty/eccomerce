@@ -1,16 +1,10 @@
 import * as React from 'react';
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 
-// import useStateValue from '../StateProvider';
-
 import Products_data from '../../constants/product-data';
-// import CheckoutCard from '../CheckoutCard/CheckoutCard';
-import Product from '../Product';
+import CheckoutCard from '../CheckoutCard/CheckoutCard';
 // import Total from '../Total/Total';
 
 const CheckoutPage = () => {
@@ -21,7 +15,7 @@ const CheckoutPage = () => {
             <React.Fragment>
                 {Products_data?.map((item) => (
                     <Grid item xs={12} sm={8} md={6} lg={4}>
-                        <Product key={item.id} product={item}/>
+                        <CheckoutCard key={item.id} product={item}/>
                     </Grid>
                 ))}
             </React.Fragment>
