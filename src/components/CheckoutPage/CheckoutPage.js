@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 
 import Products_data from '../../constants/product-data';
 import CheckoutCard from '../CheckoutCard/CheckoutCard';
-// import Total from '../Total/Total';
+import Total from '../Total/Total';
 
 const CheckoutPage = () => {
     // const [{ basket }, dispatch] = useStateValue();
@@ -35,7 +35,7 @@ const CheckoutPage = () => {
                 </Grid>
                 <Grid item xs={12} sm={4} md={3}>
                     <Typography align='center' gutterBottom variant='h4'>
-                        Total
+                        <Total />
                     </Typography>
                 </Grid>
             </Grid>
