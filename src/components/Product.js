@@ -15,23 +15,6 @@ import { createTheme } from '@mui/system';
 
 import accounting from "accounting";
 
-// const useStyles = makeStyles((theme) => ({
-//   media: {
-//     height: 0,
-//     paddingTop: "56.25%", // 16:9
-//   },
-//   expand: {
-//     transform: "rotate(0deg)",
-//     marginLeft: "auto",
-//     transition: theme.transitions.create("transform", {
-//       duration: theme.transitions.duration.shortest,
-//     }),
-//   },
-//   expandOpen: {
-//     transform: "rotate(180deg)",
-//   }
-// }))
-
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -45,7 +28,7 @@ const ExpandMore = styled((props) => {
 
 export default function Product({product : {id, name, productType, image, price, rating, description}}) {
   const theme = createTheme();
-  // const classes = useStyles();
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
