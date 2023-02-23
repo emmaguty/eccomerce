@@ -16,9 +16,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import accounting from "accounting";
 
+import { useStateValue } from  '../../stateProvider';
+import { actionTypes } from '../../reducer';
 
 export default function ChecoutCard({ product: { id, name, productType, image, price, rating, description } }) {
     const theme = createTheme();
+    const [{basket}, dispatch] = useStateValue();
+
+    const removeItem = () => dispatch({type: actionTypes.REMOVE_ITEM,
+                                       id: id,
+    });
 
     return (
         <Card sx={{ maxWidth: 345, marginTop: '2rem', padding: theme.spacing(3) }}>
@@ -44,7 +51,7 @@ export default function ChecoutCard({ product: { id, name, productType, image, p
             />
             <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'end' }}>
                 <IconButton>
-                    <DeleteIcon fontSize='large' />
+                    <DeleteIcon fontSize='large' onClick={removeItem}/>
                 </IconButton>
 
             </CardActions>

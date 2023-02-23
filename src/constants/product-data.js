@@ -13,7 +13,7 @@ const Products = [
         id: 2,
         name: "PS5",
         productType: "VideoGames",
-        price: 549.99,
+        price: 580,
         rating: 3,
         image: 'assets/images/ps5.png',
         description: 
