@@ -14,6 +14,8 @@ import { AddShoppingCart } from '@mui/icons-material';
 import { createTheme } from '@mui/system';
 
 import accounting from "accounting";
+import { actionTypes } from '../reducer';
+import { useStateValue } from  '../stateProvider';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,12 +30,27 @@ const ExpandMore = styled((props) => {
 
 export default function Product({product : {id, name, productType, image, price, rating, description}}) {
   const theme = createTheme();
-
+  const [{basket}, dispatch] = useStateValue();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const addToBasket = () => {
+    dispatch({
+      type: actionTypes.ADD_TO_BASKET,
+      item: {
+        id,
+        name,
+        productType,
+        image,
+        price,
+        rating,
+        description,
+      }
+    });
+  }
 
   return (
     <Card  sx={{ maxWidth: 345, marginTop: '2rem', padding: theme.spacing(3) }}>
@@ -63,7 +80,7 @@ export default function Product({product : {id, name, productType, image, price,
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Add to cart">
+        <IconButton aria-label="Add to cart" onClick={addToBasket}>
           <AddShoppingCart fontSize="large" />
         </IconButton>
         {Array(rating)
