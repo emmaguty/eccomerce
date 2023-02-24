@@ -8,6 +8,7 @@ import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import { actionTypes } from './reducer';
 import { useStateValue } from './stateProvider';
+import Checkout from './components/CheckoutForm/Checkout';
 
 import { auth } from './firebase/firebase';
 
@@ -45,6 +46,9 @@ function App() {
           </Route>
           <Route path="/checkout-page" >
             <CheckoutPage />
+          </Route>
+          <Route path="/checkout" >
+            <Checkout />
           </Route>
           <Route path="/" >
             <Products />
