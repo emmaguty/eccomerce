@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,7 +11,11 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { createTheme } from '@mui/system';
 
+import { auth } from '../../firebase/firebase';
+
 import { useStateValue } from '../../stateProvider';
+import { actionTypes } from '../../reducer';
+
 
 import logo from '../../assets/images/logo.png';
 
@@ -19,7 +23,23 @@ import './Navbar.css';
 
 export default function ButtonAppBar() {
   const theme = createTheme();
-  const [{ basket }, dispatch] = useStateValue();
+  const history = useHistory();
+
+  const [{ basket, user }, dispatch] = useStateValue();
+  const handleAuth = () => {
+    if (user) {
+      auth.signOut();
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        basket: []
+      });
+      dispatch({
+        type: actionTypes.SET_USER,
+        user: null
+      })
+      history.push("/");
+    }
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -43,12 +63,12 @@ export default function ButtonAppBar() {
           </Link>
 
           <Typography sx={{ flexGrow: 1, textAlign: 'end', marginRight: '1rem' }} variant="h6" component="p" color="black">
-            <p>Hello Guest</p>
+            <p>Hello {user ? user.email : "Guest"}</p>
           </Typography>
           <div className="app__Navbar_button">
             <Link to="/sign-in" sx={{textDecoration: 'none'}}>
-              <Button variant="outlined" color="inherit" sx={{ color: 'black' }}>
-                <strong>Sign In</strong>
+              <Button variant="outlined" color="inherit" sx={{ color: 'black' }} onClick={handleAuth}>
+                <strong>{user ? "Sign Out" : "Sign In"}</strong>
               </Button>
             </Link>
             <Link to="checkout-page">
