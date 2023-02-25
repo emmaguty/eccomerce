@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Typography, List } from '@mui/material/';
+import { Typography, List, ListItem, ListItemText } from '@mui/material/';
 
 import { useStateValue } from '../../stateProvider';
 import { getBasketTotal } from '../../reducer';
@@ -49,7 +49,25 @@ export default function Review() {
         Order Summary
       </Typography>
       <List disablePadding>
-        {accounting.formatMoney(getBasketTotal(basket))}
+        {
+          basket?.map(product => (
+            <ListItem key={product.name}>
+              <ListItemText primary={product.name} secondary={`Qty : ${1}`}></ListItemText>
+              <Typography variant="body2">
+                {accounting.formatMoney(product.price)}
+              </Typography>
+            </ListItem>
+          ))
+        }
+        <ListItem>
+          <ListItemText primary="Total" />
+          <Typography variant="subtitle1">
+            {accounting.formatMoney(getBasketTotal(basket))}
+          </Typography>
+        </ListItem>
+
+
+
       </List>
     </React.Fragment>
   );
