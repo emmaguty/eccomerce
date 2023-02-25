@@ -22,6 +22,11 @@ export default function AddressForm() {
         <form>
           <Grid container spacing={3}>
             <AddressInput required name="firstName" label="First Name" />
+            <AddressInput required name="lastName" label="Last Name" />
+            <AddressInput required name="address" label="Address" />
+            <AddressInput required name="email" label="Email Address" />
+            <AddressInput required name="city" label="City" />
+            <AddressInput required name="postCode" label="Post Code" />
           </Grid>
         </form>
       </FormProvider>

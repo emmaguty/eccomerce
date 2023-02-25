@@ -19,7 +19,7 @@ const AddressInput = ({ name, label, required }) => {
                     fullWidth
                     value={value}
                     label={label}
-                    
+                    required={required}
                 />
              )}
             />
