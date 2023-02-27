@@ -1,6 +1,7 @@
 import * as React from 'react';
+// import { useState } from 'react';
 
-import { Button, Divider, Typography } from '@mui/material';
+import { Button, CircularProgress, Divider, Typography } from '@mui/material';
 
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -37,6 +38,7 @@ const CARD_ELEMENT_OPTIONS = {
 
 const CheckoutForm = ({ backStep, nextStep }) => {
   const [{ basket, paymentMessage }, dispatch] = useStateValue();
+  const [loading, setLoading ] = React.useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -46,31 +48,39 @@ const CheckoutForm = ({ backStep, nextStep }) => {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement)
-    })
-
+    });
+    setLoading(true);
     if (!error) {
 
       const { id } = paymentMethod;
       try {
         const { data } = await axios.post(
-          "http://localhost:3001/api/checkout", 
+          "http://localhost:3001/api/checkout",
           {
-          id: id,
-          amount: getBasketTotal(basket) * 100,
-        });
+            id: id,
+            amount: getBasketTotal(basket) * 100,
+          });
 
         dispatch({
           type: actionTypes.SET_PAYMENT_MESSAGE,
           paymentMessage: data.message
         })
 
+        if (data.message === "Success") {
+          dispatch({
+            type: actionTypes.EMPTY_BASKET,
+            basket: []
+          });
+        }
+
         elements.getElement(CardElement).clear();
         nextStep();
       }
-      catch (error) { 
-        console.log(error); 
+      catch (error) {
+        console.log(error);
         nextStep();
       }
+      setLoading(false);
     }
 
   }
@@ -80,7 +90,12 @@ const CheckoutForm = ({ backStep, nextStep }) => {
       <CardElement options={CARD_ELEMENT_OPTIONS} />
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
         <Button variant="outlined" onClick={backStep}>Back</Button>
-        <Button type="submit" variant="contained" color="primary" disabled={false} > Pay ${getBasketTotal(basket)}</Button>
+        <Button type="submit" variant="contained" color="primary" disabled={!stripe}>
+          {
+            loading ? (<CircularProgress />) 
+            : (`Pay ${getBasketTotal(basket)}`) 
+          }
+        </Button>
       </div>
     </form>
   )
