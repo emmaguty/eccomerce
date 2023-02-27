@@ -10,7 +10,7 @@ import Review from './Review';
 import { getBasketTotal, actionTypes } from '../../reducer';
 import { useStateValue } from '../../stateProvider';
 
-import { accouting } from 'accounting';
+import { accounting } from 'accounting';
 import axios from 'axios';
 
 const stripePromise = loadStripe("pk_test_51MfUQRI8refubrkfUd6JucgcIpbiweA9LUIWGyJD7hYVqJoudMjaLD7cISxviueSMhpWlZlXR4QHlHkgeNPAm8Qd00y4OQ7tHl");
@@ -93,7 +93,7 @@ const CheckoutForm = ({ backStep, nextStep }) => {
         <Button type="submit" variant="contained" color="primary" disabled={!stripe}>
           {
             loading ? (<CircularProgress />) 
-            : (`Pay ${getBasketTotal(basket)}`) 
+            : (`Pay ${accounting.formatMoney(getBasketTotal(basket))}`) 
           }
         </Button>
       </div>
