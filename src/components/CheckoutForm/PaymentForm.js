@@ -6,10 +6,11 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import { loadStripe } from '@stripe/stripe-js';
 
 import Review from './Review';
-import { getBasketTotal } from '../../reducer';
+import { getBasketTotal, actionTypes } from '../../reducer';
 import { useStateValue } from '../../stateProvider';
 
 import { accouting } from 'accounting';
+import axios from 'axios';
 
 const stripePromise = loadStripe("pk_test_51MfUQRI8refubrkfUd6JucgcIpbiweA9LUIWGyJD7hYVqJoudMjaLD7cISxviueSMhpWlZlXR4QHlHkgeNPAm8Qd00y4OQ7tHl");
 
@@ -35,8 +36,8 @@ const CARD_ELEMENT_OPTIONS = {
 }
 
 const CheckoutForm = ({ backStep, nextStep }) => {
+  const [{ basket, paymentMessage }, dispatch] = useStateValue();
 
-  const [{ basket }, dispatch] = useStateValue();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -46,9 +47,31 @@ const CheckoutForm = ({ backStep, nextStep }) => {
       type: "card",
       card: elements.getElement(CardElement)
     })
+
     if (!error) {
+
       const { id } = paymentMethod;
+      try {
+        const { data } = await axios.post(
+          "http://localhost:3001/api/checkout", 
+          {
+          id: id,
+          amount: getBasketTotal(basket) * 100,
+        });
+
+        dispatch({
+          type: actionTypes.SET_PAYMENT_MESSAGE,
+          paymentMessage: data.message
+        })
+        elements.getElement(CardElement).clear();
+        nextStep();
+      }
+      catch (error) { 
+        console.log(error); 
+        nextStep();
+      }
     }
+
   }
 
   return (
@@ -61,6 +84,7 @@ const CheckoutForm = ({ backStep, nextStep }) => {
     </form>
   )
 }
+
 
 export default function PaymentForm({ backStep, nextStep }) {
   return (
@@ -76,3 +100,4 @@ export default function PaymentForm({ backStep, nextStep }) {
     </React.Fragment>
   );
 }
+

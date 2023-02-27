@@ -4,18 +4,22 @@ import { Container, Paper, Step, StepLabel, Stepper, Typography } from '@mui/mat
 
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
+import Confirmation from './Confirmation';
+
+import { useStateValue } from '../../stateProvider';
 
 // import { createTheme } from '@mui/system';
 
 const Checkout = () => {
-  // const theme = createTheme();
+
   const [activeStep, setActiveStep] = useState(0);
+  const [{ paymentMessage }, dispatch] = useStateValue();
   const steps = ["Shipping address", "Payment details"];
 
   const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const backStep = () => setActiveStep((nextActiveStep) => nextActiveStep - 1);
 
-  const Form = () => activeStep === 0 ? <AddressForm nextStep={nextStep} /> : <PaymentForm />
+  const Form = () => activeStep === 0 ? <AddressForm nextStep={nextStep} /> : <PaymentForm backStep={backStep} nextStep={nextStep}/>
 
   return (
     <>
@@ -31,7 +35,11 @@ const Checkout = () => {
               </Step>
             ))}
           </Stepper>
-          <Form />
+          {activeStep === steps.length ? (
+            <Confirmation message={paymentMessage}/>
+          ) : (
+            <Form step={activeStep}/>
+          )}
         </Paper>
       </Container>
     </>
