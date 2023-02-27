@@ -63,6 +63,7 @@ const CheckoutForm = ({ backStep, nextStep }) => {
           type: actionTypes.SET_PAYMENT_MESSAGE,
           paymentMessage: data.message
         })
+
         elements.getElement(CardElement).clear();
         nextStep();
       }

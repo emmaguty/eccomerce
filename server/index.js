@@ -13,7 +13,6 @@ app.use(express.json())
 
 app.post("/api/checkout", async (req, res) => {
     console.log(req.body);
-    res.send("Recibido");
     const { id, amount } = req.body;
 
     try {
@@ -23,14 +22,12 @@ app.post("/api/checkout", async (req, res) => {
             description: "Basket of Products",
             payment_method: id,
             confirm: true,
-        })
+        });
 
         console.log(payment);
-
         return res.status(200).json({ message: "Success" });
-
-    } catch (error) { 
-        return res.json({message: error.raw.message})
+    } catch (error) {
+        return res.json({ message: error.message })
     }
 });
 
